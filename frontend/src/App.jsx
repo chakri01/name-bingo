@@ -3,7 +3,7 @@ import Register from './Register'
 import Play from './Play'
 import Admin from './Admin'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+const API_URL = import.meta.env.VITE_API_URL
 export default function App() {
   const [view, setView] = useState('register')
   const [ticketId, setTicketId] = useState(null)
