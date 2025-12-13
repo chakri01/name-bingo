@@ -23,7 +23,7 @@ app.add_middleware(
 
 # ENV VARS
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
-JOIN_URL = os.getenv("JOIN_URL", "https://your-frontend-url/join")
+JOIN_URL = os.getenv("JOIN_URL", "https://bingo-frontend-production.up.railway.app/join")
 
 # CREATE TABLES
 Base.metadata.create_all(bind=engine)
