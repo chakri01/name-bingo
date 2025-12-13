@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: bingo-backend
+    env: python
+    buildCommand: "cd backend && pip install -r requirements.txt"
+    startCommand: "cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: bingo-db
+          property: connectionString
+      - key: ADMIN_PASSWORD
+        generateValue: true
+    
+  - type: web
+    name: bingo-frontend
+    env: node
+    buildCommand: "cd frontend && npm install && npm run build"
+    startCommand: "cd frontend && npx serve -s dist -p $PORT"
+    envVars:
+      - key: VITE_API_URL
+        value: https://bingo-backend.onrender.com
+
+databases:
+  - name: bingo-db
+    databaseName: namebingo
+    user: bingo
