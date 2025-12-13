@@ -32,7 +32,10 @@ with engine.connect() as conn:
     existing = conn.execute(text("SELECT COUNT(*) FROM tickets")).fetchone()[0]
     if existing == 0:
         print("Generating tickets...")
-        with open("backend/names.json") as f:
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # /app
+        NAMES_FILE = os.path.join(BASE_DIR, "names.json")      # /app/names.json
+
+        with open(NAMES_FILE) as f:
             names = json.load(f)
 
         from tickets import pre_generate_tickets
