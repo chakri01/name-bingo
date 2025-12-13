@@ -21,6 +21,8 @@ app.add_middleware(
 )
 
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@db:5432/namebingo")
+
 
 Base.metadata.create_all(bind=engine)
 
@@ -147,9 +149,11 @@ async def pick_name(authorization: str = Header(None), db: Session = Depends(get
     selected.pick_order = max_order + 1
     
     game_state = db.query(GameState).filter(GameState.key == 'game_started').first()
-    game_state.value = "true"
+    if game_state:
+        game_state.value = "true"
     
     db.commit()
+    db.refresh(selected)
     
     remaining = db.query(Name).filter(Name.is_picked == False).count()
     return {"picked_name": selected.name_text, "remaining": remaining, "order": selected.pick_order}
@@ -220,7 +224,7 @@ async def get_qr_code():
     import qrcode, io, base64
     
     # Use frontend Render URL
-    url = "https://bingo-frontend.onrender.com"
+    url = "https://namebingo-frontend.onrender.com"
     
     qr = qrcode.QRCode(version=1, box_size=10, border=4)
     qr.add_data(url)
