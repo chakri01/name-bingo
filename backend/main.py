@@ -24,24 +24,24 @@ ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
 
 Base.metadata.create_all(bind=engine)
 
-@app.on_event("startup")
-async def startup():
-    db = next(get_db())
+# @app.on_event("startup")
+# async def startup():
+#     db = next(get_db())
     
-    name_count = db.query(Name).count()
-    if name_count == 0:
-        default_names = [f"Person_{i}" for i in range(1, 91)]
-        for name in default_names:
-            db.add(Name(name_text=name))
-        db.commit()
+#     name_count = db.query(Name).count()
+#     if name_count == 0:
+#         default_names = [f"Person_{i}" for i in range(1, 91)]
+#         for name in default_names:
+#             db.add(Name(name_text=name))
+#         db.commit()
     
-    ticket_count = db.query(Ticket).count()
-    if ticket_count == 0:
-        names = [n.name_text for n in db.query(Name).all()]
-        tickets = pre_generate_tickets(names, 100)
-        for ticket_data in tickets:
-            db.add(Ticket(grid=ticket_data["grid"]))
-        db.commit()
+#     ticket_count = db.query(Ticket).count()
+#     if ticket_count == 0:
+#         names = [n.name_text for n in db.query(Name).all()]
+#         tickets = pre_generate_tickets(names, 100)
+#         for ticket_data in tickets:
+#             db.add(Ticket(grid=ticket_data["grid"]))
+#         db.commit()
 
 @app.post("/api/register")
 async def register(data: dict, db: Session = Depends(get_db)):
