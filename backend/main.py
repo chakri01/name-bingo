@@ -28,6 +28,26 @@ JOIN_URL = os.getenv("JOIN_URL", "https://your-frontend-url/join")
 # CREATE TABLES
 Base.metadata.create_all(bind=engine)
 
+with engine.connect() as conn:
+    existing = conn.execute(text("SELECT COUNT(*) FROM tickets")).fetchone()[0]
+    if existing == 0:
+        print("Generating tickets...")
+        with open("backend/names.json") as f:
+            names = json.load(f)
+
+        from tickets import pre_generate_tickets
+        generated = pre_generate_tickets(names, count=len(names))
+
+        for t in generated:
+            conn.execute(
+                Ticket.__table__.insert().values(
+                    grid=t["grid"],
+                    is_assigned=False,
+                    status="active"
+                )
+            )
+        conn.commit()
+        print("Tickets generated:", len(generated))
 
 # -----------------------------
 # USER ROUTES
