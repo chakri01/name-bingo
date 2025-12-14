@@ -290,23 +290,46 @@ async def startup_event():
         Base.metadata.create_all(bind=engine)
         print("✅ Database tables created")
         
-        # Check and generate tickets
         with engine.connect() as conn:
-            existing = conn.execute(text("SELECT COUNT(*) FROM tickets")).fetchone()[0]
-            if existing == 0:
-                print("🎫 Generating tickets...")
+            # ⭐ SEED NAMES TABLE FIRST
+            names_count = conn.execute(text("SELECT COUNT(*) FROM names")).fetchone()[0]
+            if names_count == 0:
+                print("📝 Seeding names table...")
                 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
                 NAMES_FILE = os.path.join(BASE_DIR, "names.json")
                 
-                if not os.path.exists(NAMES_FILE):
-                    print(f"⚠️ {NAMES_FILE} not found, using defaults")
-                    names = [f"Player_{i}" for i in range(1, 91)]
-                else:
+                if os.path.exists(NAMES_FILE):
                     with open(NAMES_FILE) as f:
-                        names = json.load(f)
-                    print(f"✅ Loaded {len(names)} names from file")
+                        names_list = json.load(f)
+                    print(f"✅ Loaded {len(names_list)} names from names.json")
+                else:
+                    print("⚠️ names.json not found, using defaults")
+                    names_list = [f"Player_{i}" for i in range(1, 91)]
                 
-                generated = pre_generate_tickets(names, count=min(len(names), 100))
+                # Insert names into database
+                for name in names_list:
+                    conn.execute(
+                        text("INSERT INTO names (name_text, is_picked, pick_order) VALUES (:name, false, NULL)"),
+                        {"name": name}
+                    )
+                conn.commit()
+                print(f"✅ Seeded {len(names_list)} names into database")
+            else:
+                print(f"✅ Found {names_count} names in database")
+            
+            # ⭐ THEN GENERATE TICKETS
+            tickets_count = conn.execute(text("SELECT COUNT(*) FROM tickets")).fetchone()[0]
+            if tickets_count == 0:
+                print("🎫 Generating tickets...")
+                
+                # Get names from database
+                result = conn.execute(text("SELECT name_text FROM names ORDER BY id"))
+                db_names = [row[0] for row in result]
+                
+                if not db_names:
+                    raise Exception("No names found in database!")
+                
+                generated = pre_generate_tickets(db_names, count=min(len(db_names), 100))
                 
                 for t in generated:
                     conn.execute(
@@ -319,14 +342,22 @@ async def startup_event():
                 conn.commit()
                 print(f"✅ Generated {len(generated)} tickets")
             else:
-                print(f"✅ Found {existing} existing tickets")
+                print(f"✅ Found {tickets_count} existing tickets")
+            
+            # ⭐ INITIALIZE GAME STATE
+            game_state_count = conn.execute(text("SELECT COUNT(*) FROM game_state")).fetchone()[0]
+            if game_state_count == 0:
+                print("🎮 Initializing game state...")
+                conn.execute(
+                    text("INSERT INTO game_state (key, value) VALUES ('claim_lock', 'false')")
+                )
+                conn.commit()
+                print("✅ Game state initialized")
                 
     except Exception as e:
         print(f"❌ Startup error: {e}")
         import traceback
         traceback.print_exc()
-
-
 # -----------------------------
 # PRODUCTION ENTRYPOINT
 # -----------------------------
