@@ -1,22 +1,22 @@
-FROM node:20-alpine AS builder
-
-WORKDIR /build
-RUN ls -la
-RUN pwd
-
-COPY package*.json ./
-RUN npm install
-
-COPY . .
-RUN npm run build
-
 FROM node:20-alpine
 
-WORKDIR /app
-RUN npm install -g serve
+# Use /build to match your previous working setup
+WORKDIR /build
 
-COPY --from=builder /build/dist ./dist
+# Copy package files
+COPY package*.json ./
 
+# Install dependencies (including vite)
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Build production bundle (creates /build/dist)
+RUN npm run build
+
+# Expose Railway's port
 EXPOSE $PORT
 
-CMD sh -c "serve -s dist -l $PORT"
+# Run vite preview (automatically serves from /build/dist)
+CMD ["sh", "-c", "vite preview --host 0.0.0.0 --port $PORT"]
