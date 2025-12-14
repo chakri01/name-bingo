@@ -20,7 +20,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-# ⭐ CRITICAL: Add routes BEFORE initialization
+
+# ENV VARS
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
+JOIN_URL = os.getenv("JOIN_URL", "https://bingo-frontend-production.up.railway.app/join")
+
+# -----------------------------
+# BASIC ROUTES
+# -----------------------------
+
 @app.get("/")
 async def root():
     return {"status": "ok", "message": "Name Bingo API Running"}
@@ -29,80 +37,20 @@ async def root():
 async def health():
     return {"status": "healthy", "timestamp": str(datetime.now())}
 
-# ⭐ Move initialization to startup event
-@app.on_event("startup")
-async def startup_event():
-    try:
-        # CREATE TABLES
-        Base.metadata.create_all(bind=engine)
-        print("✅ Database tables created")
-        
-        # Check and generate tickets
-        with engine.connect() as conn:
-            existing = conn.execute(text("SELECT COUNT(*) FROM tickets")).fetchone()[0]
-            if existing == 0:
-                print("🎫 Generating tickets...")
-                BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-                NAMES_FILE = os.path.join(BASE_DIR, "names.json")
-                
-                if not os.path.exists(NAMES_FILE):
-                    print(f"⚠️ {NAMES_FILE} not found")
-                    names = [f"Player_{i}" for i in range(1, 91)]
-                else:
-                    with open(NAMES_FILE) as f:
-                        names = json.load(f)
-                    print(f"✅ Loaded {len(names)} names from file")
-                
-                generated = pre_generate_tickets(names, count=min(len(names), 100))
-                
-                for t in generated:
-                    conn.execute(
-                        Ticket.__table__.insert().values(
-                            grid=t["grid"],
-                            is_assigned=False,
-                            status="active"
-                        )
-                    )
-                conn.commit()
-                print(f"✅ Generated {len(generated)} tickets")
-            else:
-                print(f"✅ Found {existing} existing tickets")
-                
-    except Exception as e:
-        print(f"❌ Startup error: {e}")
-        import traceback
-        traceback.print_exc()
-        
-# ENV VARS
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
-JOIN_URL = os.getenv("JOIN_URL", "https://bingo-frontend-production.up.railway.app/join")
-
-# CREATE TABLES
-Base.metadata.create_all(bind=engine)
-
-with engine.connect() as conn:
-    existing = conn.execute(text("SELECT COUNT(*) FROM tickets")).fetchone()[0]
-    if existing == 0:
-        print("Generating tickets...")
-        BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # /app
-        NAMES_FILE = os.path.join(BASE_DIR, "names.json")      # /app/names.json
-
-        with open(NAMES_FILE) as f:
-            names = json.load(f)
-
-        from tickets import pre_generate_tickets
-        generated = pre_generate_tickets(names, count=len(names))
-
-        for t in generated:
-            conn.execute(
-                Ticket.__table__.insert().values(
-                    grid=t["grid"],
-                    is_assigned=False,
-                    status="active"
-                )
-            )
-        conn.commit()
-        print("Tickets generated:", len(generated))
+@app.get("/admin")
+async def admin():
+    return {
+        "status": "ok",
+        "message": "Admin endpoint",
+        "available_endpoints": [
+            "/api/admin/login",
+            "/api/admin/pick-name",
+            "/api/admin/claims",
+            "/api/admin/verify-claim",
+            "/api/admin/reset-game",
+            "/api/admin/qr-code"
+        ]
+    }
 
 # -----------------------------
 # USER ROUTES
@@ -194,7 +142,10 @@ async def claim(data: dict, db: Session = Depends(get_db)):
         ticket.claimed_at = datetime.now()
 
         lock_state = db.query(GameState).filter(GameState.key == 'claim_lock').first()
-        lock_state.value = "true"
+        if lock_state:
+            lock_state.value = "true"
+        else:
+            db.add(GameState(key='claim_lock', value='true'))
 
         db.commit()
 
@@ -207,10 +158,6 @@ async def claim(data: dict, db: Session = Depends(get_db)):
 
 # -----------------------------
 # ADMIN ROUTES
-@app.get("/admin")
-async def admin():
- return {"status": "ok", "message": "Admin endpoint", "available_endpoints": ["/api/admin/login", "/api/admin/pick-name", "/api/admin/claims", "/api/admin/verify-claim", "/api/admin/reset-game", "/api/admin/qr-code"]}
-
 # -----------------------------
 
 @app.post("/api/admin/login")
@@ -289,7 +236,8 @@ async def verify_claim(data: dict, authorization: str = Header(None), db: Sessio
     pending = db.query(ClaimQueue).filter(ClaimQueue.status == 'pending').count()
     if pending == 0:
         lock_state = db.query(GameState).filter(GameState.key == 'claim_lock').first()
-        lock_state.value = "false"
+        if lock_state:
+            lock_state.value = "false"
 
     db.commit()
 
@@ -317,7 +265,7 @@ async def reset_game(authorization: str = Header(None), db: Session = Depends(ge
 async def get_qr_code():
     import qrcode, io, base64
 
-    url = JOIN_URL  # pulled from env variable
+    url = JOIN_URL
 
     qr = qrcode.QRCode(version=1, box_size=10, border=4)
     qr.add_data(url)
@@ -332,8 +280,57 @@ async def get_qr_code():
 
 
 # -----------------------------
+# STARTUP EVENT - Database Initialization
+# -----------------------------
+
+@app.on_event("startup")
+async def startup_event():
+    try:
+        # CREATE TABLES
+        Base.metadata.create_all(bind=engine)
+        print("✅ Database tables created")
+        
+        # Check and generate tickets
+        with engine.connect() as conn:
+            existing = conn.execute(text("SELECT COUNT(*) FROM tickets")).fetchone()[0]
+            if existing == 0:
+                print("🎫 Generating tickets...")
+                BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+                NAMES_FILE = os.path.join(BASE_DIR, "names.json")
+                
+                if not os.path.exists(NAMES_FILE):
+                    print(f"⚠️ {NAMES_FILE} not found, using defaults")
+                    names = [f"Player_{i}" for i in range(1, 91)]
+                else:
+                    with open(NAMES_FILE) as f:
+                        names = json.load(f)
+                    print(f"✅ Loaded {len(names)} names from file")
+                
+                generated = pre_generate_tickets(names, count=min(len(names), 100))
+                
+                for t in generated:
+                    conn.execute(
+                        Ticket.__table__.insert().values(
+                            grid=t["grid"],
+                            is_assigned=False,
+                            status="active"
+                        )
+                    )
+                conn.commit()
+                print(f"✅ Generated {len(generated)} tickets")
+            else:
+                print(f"✅ Found {existing} existing tickets")
+                
+    except Exception as e:
+        print(f"❌ Startup error: {e}")
+        import traceback
+        traceback.print_exc()
+
+
+# -----------------------------
 # PRODUCTION ENTRYPOINT
 # -----------------------------
+
 if __name__ == "__main__":
     import uvicorn
     port = int(os.getenv("PORT", 8000))
