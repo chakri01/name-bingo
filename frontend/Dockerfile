@@ -1,15 +1,15 @@
-# --- Build Stage ---
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy ONLY the frontend package files
 COPY package*.json ./
-
 RUN npm install
 
-# Copy the rest of the frontend source
 COPY . .
+
+# Build will use VITE_API_URL from Railway env vars
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
 
 RUN npm run build
 
@@ -17,11 +17,15 @@ RUN npm run build
 FROM node:20-alpine
 
 WORKDIR /app
+
+# Install serve globally
 RUN npm install -g serve
 
+# Copy built files
 COPY --from=builder /app/dist ./dist
 
-ENV PORT=5173
-EXPOSE 5173
+# Railway provides PORT automatically
+EXPOSE $PORT
 
-CMD ["serve", "-s", "dist", "-l", "5173"]
+# Serve on Railway's PORT
+CMD sh -c "serve -s dist -l $PORT"

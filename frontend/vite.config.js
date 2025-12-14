@@ -5,11 +5,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: '0.0.0.0',
-    port: 5173
+    port: parseInt(process.env.PORT) || 5173,
   },
   preview: {
-    host: true,
-    allowedHosts: ["bingo-frontend-production.up.railway.app"],
-    port: process.env.PORT ? Number(process.env.PORT) : 5173,
+    host: '0.0.0.0',
+    port: parseInt(process.env.PORT) || 5173,
   }
 })
