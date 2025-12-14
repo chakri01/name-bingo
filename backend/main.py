@@ -20,14 +20,59 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+# ⭐ CRITICAL: Add routes BEFORE initialization
 @app.get("/")
 async def root():
-    return {"status": "ok", "message": "Name Bingo API"}
+    return {"status": "ok", "message": "Name Bingo API Running"}
 
 @app.get("/health")
 async def health():
-    return {"status": "healthy"}
+    return {"status": "healthy", "timestamp": str(datetime.now())}
+
+# ⭐ Move initialization to startup event
+@app.on_event("startup")
+async def startup_event():
+    try:
+        # CREATE TABLES
+        Base.metadata.create_all(bind=engine)
+        print("✅ Database tables created")
+        
+        # Check and generate tickets
+        with engine.connect() as conn:
+            existing = conn.execute(text("SELECT COUNT(*) FROM tickets")).fetchone()[0]
+            if existing == 0:
+                print("🎫 Generating tickets...")
+                BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+                NAMES_FILE = os.path.join(BASE_DIR, "names.json")
+                
+                if not os.path.exists(NAMES_FILE):
+                    print(f"⚠️ {NAMES_FILE} not found")
+                    names = [f"Player_{i}" for i in range(1, 91)]
+                else:
+                    with open(NAMES_FILE) as f:
+                        names = json.load(f)
+                    print(f"✅ Loaded {len(names)} names from file")
+                
+                generated = pre_generate_tickets(names, count=min(len(names), 100))
+                
+                for t in generated:
+                    conn.execute(
+                        Ticket.__table__.insert().values(
+                            grid=t["grid"],
+                            is_assigned=False,
+                            status="active"
+                        )
+                    )
+                conn.commit()
+                print(f"✅ Generated {len(generated)} tickets")
+            else:
+                print(f"✅ Found {existing} existing tickets")
+                
+    except Exception as e:
+        print(f"❌ Startup error: {e}")
+        import traceback
+        traceback.print_exc()
+        
 # ENV VARS
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
 JOIN_URL = os.getenv("JOIN_URL", "https://bingo-frontend-production.up.railway.app/join")
