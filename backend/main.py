@@ -21,6 +21,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+async def root():
+    return {"status": "ok", "message": "Name Bingo API"}
+
+@app.get("/health")
+async def health():
+    return {"status": "healthy"}
 # ENV VARS
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
 JOIN_URL = os.getenv("JOIN_URL", "https://bingo-frontend-production.up.railway.app/join")
