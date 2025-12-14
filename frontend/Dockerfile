@@ -16,5 +16,4 @@ RUN npm install -g serve@14.2.1
 
 COPY --from=build /app/dist ./dist
 
-# Explicitly bind to 0.0.0.0 and use PORT
-CMD sh -c "serve dist -l 0.0.0.0:${PORT:-3000} -n"
+CMD ["serve", "dist", "--single"]
