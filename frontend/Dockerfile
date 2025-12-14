@@ -1,13 +1,21 @@
-FROM node:20-alpine
+FROM node:20-alpine AS build
 
-WORKDIR /build
+WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 
 COPY . .
 RUN npm run build
 
-EXPOSE $PORT
+FROM node:20-alpine
 
-CMD ["npm", "run", "preview"]
+WORKDIR /app
+
+RUN npm install -g serve@14.2.1
+
+COPY --from=build /app/dist ./dist
+
+ENV PORT=3000
+
+CMD serve dist -l $PORT -n
