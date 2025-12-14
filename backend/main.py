@@ -207,6 +207,10 @@ async def claim(data: dict, db: Session = Depends(get_db)):
 
 # -----------------------------
 # ADMIN ROUTES
+@app.get("/admin")
+async def admin():
+ return {"status": "ok", "message": "Admin endpoint", "available_endpoints": ["/api/admin/login", "/api/admin/pick-name", "/api/admin/claims", "/api/admin/verify-claim", "/api/admin/reset-game", "/api/admin/qr-code"]}
+
 # -----------------------------
 
 @app.post("/api/admin/login")
