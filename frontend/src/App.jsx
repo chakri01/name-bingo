@@ -3,7 +3,9 @@ import Register from './Register'
 import Play from './Play'
 import Admin from './Admin'
 
-const API_URL = import.meta.env.VITE_API_URL
+// Add fallback URL
+const API_URL = import.meta.env.VITE_API_URL || 'https://bingo-backend-production.up.railway.app'
+
 export default function App() {
   const [view, setView] = useState('register')
   const [ticketId, setTicketId] = useState(null)
