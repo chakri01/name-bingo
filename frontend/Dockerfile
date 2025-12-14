@@ -10,5 +10,4 @@ RUN npm run build
 
 EXPOSE $PORT
 
-# Use npm run to execute the preview script
 CMD ["npm", "run", "preview"]
