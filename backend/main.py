@@ -9,6 +9,8 @@ import json
 from database import get_db, engine
 from models import Base, Name, Ticket, GameState, ClaimQueue
 from tickets import pre_generate_tickets
+from fastapi.staticfiles import StaticFiles
+import os
 
 app = FastAPI()
 
@@ -24,6 +26,14 @@ app.add_middleware(
 # ENV VARS
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
 JOIN_URL = os.getenv("JOIN_URL", "https://bingo-frontend-production.up.railway.app/join")
+
+# After app creation, before routes
+STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
+if not os.path.exists(STATIC_DIR):
+    os.makedirs(STATIC_DIR)
+    os.makedirs(os.path.join(STATIC_DIR, "photos"))
+
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 # -----------------------------
 # BASIC ROUTES
@@ -57,7 +67,28 @@ async def get_names(db: Session = Depends(get_db)):
     """Get all available (unassigned) names for autocomplete"""
     names = db.query(Name.name_text).filter(Name.is_picked == False).all()
     return {"names": [n[0] for n in names]}
-    
+
+# New endpoint to get profile data
+@app.get("/api/profile/{name}")
+async def get_profile(name: str):
+    try:
+        PROFILES_FILE = os.path.join(os.path.dirname(__file__), "profiles.json")
+        
+        if not os.path.exists(PROFILES_FILE):
+            return {"photo": None, "bio": None, "blur": False}
+        
+        with open(PROFILES_FILE) as f:
+            profiles = json.load(f)
+        
+        profile = profiles.get(name, {})
+        return {
+            "photo": profile.get("photo"),
+            "bio": profile.get("bio"),
+            "blur": profile.get("blur", False)
+        }
+    except Exception as e:
+        return {"photo": None, "bio": None, "blur": False}
+
 # -----------------------------
 # USER ROUTES
 # -----------------------------
