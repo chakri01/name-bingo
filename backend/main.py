@@ -52,6 +52,12 @@ async def admin():
         ]
     }
 
+@app.get("/api/names")
+async def get_names(db: Session = Depends(get_db)):
+    """Get all available (unassigned) names for autocomplete"""
+    names = db.query(Name.name_text).filter(Name.is_picked == False).all()
+    return {"names": [n[0] for n in names]}
+    
 # -----------------------------
 # USER ROUTES
 # -----------------------------

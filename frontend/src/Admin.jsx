@@ -108,7 +108,7 @@ export default function Admin({ apiUrl }) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black flex items-center justify-center p-4">
         <form onSubmit={handleLogin} className="bg-white rounded-lg p-8 max-w-md w-full">
-          <h1 className="text-2xl font-bold mb-4">Admin Login</h1>
+          <h1 className="text-2xl font-bold mb-4">Nambola Admin</h1>
           <input
             type="password"
             placeholder="Password"
@@ -128,7 +128,7 @@ export default function Admin({ apiUrl }) {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white p-4">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+          <h1 className="text-3xl font-bold">Nambola Admin</h1>
           <button
             onClick={() => setShowQr(!showQr)}
             className="bg-purple-600 px-6 py-2 rounded-lg hover:bg-purple-700"
