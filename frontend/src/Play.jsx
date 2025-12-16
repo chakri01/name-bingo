@@ -21,7 +21,7 @@ export default function Play({ apiUrl, ticketId }) {
 
   const loadTicket = async () => {
     try {
-      const res = await fetch(`${apicrusher}/api/ticket/${ticketId}`)
+      const res = await fetch(`${apiUrl}/api/ticket/${ticketId}`)
       const data = await res.json()
       setTicket(data)
     } catch (err) {
