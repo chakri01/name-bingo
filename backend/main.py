@@ -266,6 +266,21 @@ async def reset_game(authorization: str = Header(None), db: Session = Depends(ge
     db.commit()
     return {"success": True}
 
+@app.get("/api/admin/pending-claims")
+async def pending_claims(db: Session = Depends(get_db)):
+    pending = db.query(ClaimQueue).filter(ClaimQueue.status == 'pending').order_by(ClaimQueue.created_at).all()
+    
+    claims = []
+    for claim in pending:
+        ticket = db.query(Ticket).filter(Ticket.id == claim.ticket_id).first()
+        claims.append({
+            "claim_id": claim.id,
+            "ticket_id": str(ticket.id),
+            "player_name": ticket.player_name,
+            "claimed_at": str(claim.created_at)
+        })
+    
+    return {"pending_claims": claims}
 
 @app.get("/api/admin/qr-code")
 async def get_qr_code():
@@ -284,6 +299,27 @@ async def get_qr_code():
 
     return {"qr_code": f"data:image/png;base64,{img_b64}", "url": url}
 
+@app.post("/api/resolve-claim")
+async def resolve_claim(data: dict, db: Session = Depends(get_db)):
+    claim_id = data["claim_id"]
+    approved = data["approved"]
+    
+    claim = db.query(ClaimQueue).get(claim_id)
+    ticket = db.query(Ticket).filter(Ticket.id == claim.ticket_id).first()
+    
+    if approved:
+        claim.status = 'approved'
+        ticket.status = 'winner'
+    else:
+        claim.status = 'rejected'
+        ticket.status = 'active'
+    
+    # UNLOCK
+    lock_state = db.query(GameState).filter(GameState.key == 'claim_lock').first()
+    lock_state.value = "false"
+    
+    db.commit()
+    return {"success": True}
 
 # -----------------------------
 # STARTUP EVENT - Database Initialization
@@ -359,6 +395,14 @@ async def startup_event():
                 )
                 conn.commit()
                 print("✅ Game state initialized")
+            else:
+                # RESET LOCK ON RESTART
+                print("🔓 Resetting claim lock...")
+                conn.execute(
+                    text("UPDATE game_state SET value = 'false' WHERE key = 'claim_lock'")
+                )
+                conn.commit()
+                print("✅ Claim lock reset to false")
                 
     except Exception as e:
         print(f"❌ Startup error: {e}")

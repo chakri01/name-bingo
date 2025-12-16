@@ -21,11 +21,11 @@ export default function Play({ apiUrl, ticketId }) {
 
   const loadTicket = async () => {
     try {
-      const res = await fetch(`${apiUrl}/api/ticket/${ticketId}`)
+      const res = await fetch(`${apicrusher}/api/ticket/${ticketId}`)
       const data = await res.json()
       setTicket(data)
     } catch (err) {
-      console.error(err)
+      console.error('Load ticket error:', err)
     }
   }
 
@@ -33,9 +33,10 @@ export default function Play({ apiUrl, ticketId }) {
     try {
       const res = await fetch(`${apiUrl}/api/game-status`)
       const data = await res.json()
+      console.log('Game Status Response:', data) // DEBUG LOG
       setGameStatus(data)
     } catch (err) {
-      console.error(err)
+      console.error('Load game status error:', err)
     }
   }
 
@@ -86,6 +87,14 @@ export default function Play({ apiUrl, ticketId }) {
     )
   }
 
+  // DEBUG INFO
+  const buttonDisabled = claiming || ticket.status === 'claimed' || gameStatus?.is_locked
+  console.log('Button disabled?', buttonDisabled, {
+    claiming,
+    ticketStatus: ticket.status,
+    isLocked: gameStatus?.is_locked
+  })
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 to-pink-900 p-4">
       <div className="max-w-4xl mx-auto">
@@ -97,7 +106,6 @@ export default function Play({ apiUrl, ticketId }) {
               row.map((cell, cidx) => {
                 const key = `${ridx}-${cidx}`
                 const isMarked = marked[key]
-                const isPicked = gameStatus?.picked_names.some(p => p.name === cell)
                 
                 return (
                   <div
@@ -106,7 +114,6 @@ export default function Play({ apiUrl, ticketId }) {
                     className={`aspect-square flex items-center justify-center text-xs font-semibold rounded cursor-pointer border-2 ${
                       !cell ? 'bg-gray-200' :
                       isMarked ? 'bg-green-500 text-white border-green-700' :
-                      isPicked ? 'bg-yellow-300 border-yellow-500' :
                       'bg-white border-gray-300 hover:bg-gray-50'
                     }`}
                   >
@@ -119,7 +126,7 @@ export default function Play({ apiUrl, ticketId }) {
 
           <button
             onClick={handleClaim}
-            disabled={claiming || ticket.status === 'claimed' || gameStatus?.is_locked}
+            disabled={buttonDisabled}
             className="w-full bg-red-600 text-white py-4 rounded-lg font-bold text-xl hover:bg-red-700 disabled:bg-gray-400"
           >
             {ticket.status === 'claimed' ? 'Waiting for Verification...' :
@@ -127,8 +134,12 @@ export default function Play({ apiUrl, ticketId }) {
              claiming ? 'Submitting...' : 'CLAIM WIN'}
           </button>
 
-          <div className="mt-4 text-sm text-gray-600">
-            <p>Called: {gameStatus?.picked_names.length || 0}</p>
+          {/* DEBUG INFO */}
+          <div className="mt-4 p-3 bg-gray-100 rounded text-xs">
+            <p><strong>Debug Info:</strong></p>
+            <p>Ticket Status: {ticket.status}</p>
+            <p>Game Locked: {String(gameStatus?.is_locked)}</p>
+            <p>Called: {gameStatus?.picked_names?.length || 0}</p>
           </div>
         </div>
       </div>
