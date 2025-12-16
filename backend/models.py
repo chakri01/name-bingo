@@ -38,3 +38,4 @@ class ClaimQueue(Base):
     status = Column(String(20), default='pending')
     verified_by = Column(String(50))
     verified_at = Column(TIMESTAMP)
+    is_valid = Column(Boolean, default=False)

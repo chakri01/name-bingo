@@ -29,7 +29,8 @@ CREATE TABLE IF NOT EXISTS claim_queue (
   claimed_at TIMESTAMP DEFAULT NOW(),
   status VARCHAR(20) DEFAULT 'pending',
   verified_by VARCHAR(50),
-  verified_at TIMESTAMP
+  verified_at TIMESTAMP,
+  is_valid BOOLEAN DEFAULT FALSE
 );
 
 CREATE INDEX idx_names_picked ON names(is_picked, pick_order);

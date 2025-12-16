@@ -172,7 +172,10 @@ async def claim(data: dict, db: Session = Depends(get_db)):
         if not ticket or ticket.status != 'active':
             return {"success": False, "message": "Invalid ticket"}
 
-        claim = ClaimQueue(ticket_id=ticket_id)
+        # VALIDATE TICKET
+        is_valid = validate_ticket(ticket, db)
+
+        claim = ClaimQueue(ticket_id=ticket_id, is_valid=is_valid)  # ADD is_valid
         db.add(claim)
 
         ticket.status = 'claimed'
@@ -191,8 +194,7 @@ async def claim(data: dict, db: Session = Depends(get_db)):
 
     finally:
         db.execute(text("SELECT pg_advisory_unlock(1)"))
-
-
+        
 # -----------------------------
 # ADMIN ROUTES
 # -----------------------------
@@ -244,7 +246,8 @@ async def get_claims(authorization: str = Header(None), db: Session = Depends(ge
             "player_name": ticket.player_name,
             "grid": ticket.grid,
             "picked_names": picked_names,
-            "claimed_at": str(claim.claimed_at)
+            "claimed_at": str(claim.claimed_at),
+            "is_valid": claim.is_valid  # ADD THIS
         })
 
     return result
@@ -308,7 +311,8 @@ async def pending_claims(db: Session = Depends(get_db)):
             "claim_id": claim.id,
             "ticket_id": str(ticket.id),
             "player_name": ticket.player_name,
-            "claimed_at": str(claim.created_at)
+            "claimed_at": str(claim.created_at),
+            "is_valid": claim.is_valid  # ADD THIS
         })
     
     return {"pending_claims": claims}
@@ -442,6 +446,17 @@ async def startup_event():
 # -----------------------------
 # PRODUCTION ENTRYPOINT
 # -----------------------------
+def validate_ticket(ticket, db):
+    """Check if all names on ticket are actually picked"""
+    picked_names = {n.name_text for n in db.query(Name).filter(Name.is_picked == True).all()}
+    
+    ticket_names = [cell for row in ticket.grid for cell in row if cell]
+    
+    for name in ticket_names:
+        if name not in picked_names:
+            return False
+    
+    return True
 
 if __name__ == "__main__":
     import uvicorn
