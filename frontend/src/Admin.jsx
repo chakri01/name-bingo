@@ -8,6 +8,10 @@ export default function Admin({ apiUrl }) {
   const [selectedClaim, setSelectedClaim] = useState(null)
   const [qrData, setQrData] = useState(null)
   const [showQr, setShowQr] = useState(false)
+  const [showNameReveal, setShowNameReveal] = useState(false)
+  const [revealedName, setRevealedName] = useState(null)
+  const [profileData, setProfileData] = useState(null)
+  const [revealed, setRevealed] = useState(false)
 
   useEffect(() => {
     if (authenticated) {
@@ -72,8 +76,22 @@ export default function Admin({ apiUrl }) {
     try {
       const res = await fetch(`${apiUrl}/api/admin/pick-name`, { method: 'POST' })
       const data = await res.json()
-      alert(`Picked: ${data.picked_name}`)
-      loadGameStatus()
+
+      // Fetch profile data
+      const profileRes = await fetch(`${apiUrl}/api/profile/${encodeURIComponent(data.picked_name)}`)
+      const profile = await profileRes.json()
+
+      setRevealedName(data)
+      setProfileData(profile)
+      setRevealed(!profile?.blur) // Auto-reveal if not blurred
+      setShowNameReveal(true)
+
+      // Auto-close after 5 seconds
+      setTimeout(() => {
+        setShowNameReveal(false)
+        loadGameStatus()
+      }, 5000)
+
     } catch (err) {
       alert('Pick failed')
     }
@@ -123,6 +141,9 @@ export default function Admin({ apiUrl }) {
       </div>
     )
   }
+
+  const hasPhoto = profileData?.photo
+  const isBlurred = profileData?.blur
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white p-4">
@@ -189,8 +210,74 @@ export default function Admin({ apiUrl }) {
           </div>
         </div>
 
+        {/* Name Reveal Modal */}
+        {showNameReveal && revealedName && (
+          <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 animate-fadeIn">
+            <div className="bg-white rounded-2xl p-8 max-w-2xl w-full mx-4 animate-popIn">
+              <div className="text-center">
+                <div className="text-6xl mb-4">🎉</div>
+                
+                {hasPhoto && (
+                  <div className="mb-6">
+                    <img
+                      src={`${apiUrl}${profileData.photo}`}
+                      alt={revealedName.picked_name}
+                      className={`w-64 h-64 mx-auto rounded-full object-cover shadow-2xl ${
+                        isBlurred && !revealed ? 'blur-2xl' : ''
+                      }`}
+                      style={{
+                        transition: 'filter 0.5s ease'
+                      }}
+                    />
+                    {isBlurred && !revealed && (
+                      <button
+                        onClick={() => setRevealed(true)}
+                        className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+                      >
+                        Reveal Photo
+                      </button>
+                    )}
+                  </div>
+                )}
+                
+                <h2 className="text-5xl font-bold text-gray-800 mb-4">
+                  {revealedName.picked_name}
+                </h2>
+                
+                {profileData?.bio && (
+                  <p className="text-xl text-gray-600 mb-6 italic">
+                    "{profileData.bio}"
+                  </p>
+                )}
+                
+                <div className="flex justify-center gap-8 text-gray-700">
+                  <div>
+                    <div className="text-3xl font-bold text-blue-600">#{revealedName.order}</div>
+                    <div className="text-sm">Call Number</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold text-green-600">{revealedName.remaining}</div>
+                    <div className="text-sm">Remaining</div>
+                  </div>
+                </div>
+                
+                <button
+                  onClick={() => {
+                    setShowNameReveal(false)
+                    loadGameStatus()
+                  }}
+                  className="mt-6 bg-gray-800 text-white px-8 py-3 rounded-lg hover:bg-gray-900"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Claim Verification Modal */}
         {selectedClaim && (
-          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-40">
             <div className="bg-white text-black rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
               <h2 className="text-2xl font-bold mb-4">{selectedClaim.player_name}</h2>
               
