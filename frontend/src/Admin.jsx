@@ -14,7 +14,7 @@ export default function Admin({ apiUrl }) {
   const [revealed, setRevealed] = useState(false)
 
   useEffect(() => {
-    if (authenticated && !showNameReveal) {
+    if (authenticated) {
       loadQrCode()
       const interval = setInterval(() => {
         loadGameStatus()
@@ -22,7 +22,7 @@ export default function Admin({ apiUrl }) {
       }, 1000)
       return () => clearInterval(interval)
     }
-}, [authenticated, showNameReveal])
+}, [authenticated])
   const loadQrCode = async () => {
     try {
       const res = await fetch(`${apiUrl}/api/admin/qr-code`)
@@ -73,7 +73,7 @@ export default function Admin({ apiUrl }) {
 
   const pickName = async () => {
     try {
-const res = await fetch(`${apiUrl}/api/admin/pick-name`, { method: 'POST' })
+      const res = await fetch(`${apiUrl}/api/admin/pick-name`, { method: 'POST' })
       const data = await res.json()
       console.log('Picked name:', data.picked_name)
       
@@ -136,7 +136,7 @@ const res = await fetch(`${apiUrl}/api/admin/pick-name`, { method: 'POST' })
     )
   }
 
-  const hasPhoto = profileData?.photo && profileData.photo !== null
+  const hasPhoto = profileData?.photo 
   const isBlurred = profileData?.blur
 
   return (
@@ -211,7 +211,7 @@ const res = await fetch(`${apiUrl}/api/admin/pick-name`, { method: 'POST' })
               <div className="text-center">
                 <div className="text-6xl mb-4">🎉</div>
                 
-                                {hasPhoto && (
+                  {hasPhoto && (
                   <div className="mb-6">
                     <img
                       src={`${apiUrl}${profileData.photo}`}
@@ -235,11 +235,11 @@ const res = await fetch(`${apiUrl}/api/admin/pick-name`, { method: 'POST' })
                   </div>
                 )}
                 
-                {!(isBlurred || revealed) && (
+                
                   <h2 className="text-5xl font-bold text-gray-800 mb-4">
                   {revealedName.picked_name}
                   </h2>
-                )}
+                
                 
                 {profileData?.bio && (
                   <p className="text-xl text-gray-600 mb-6 italic">
