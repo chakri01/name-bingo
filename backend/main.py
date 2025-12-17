@@ -12,6 +12,9 @@ from tickets import pre_generate_tickets
 from fastapi.staticfiles import StaticFiles
 import os
 from urllib.parse import unquote
+from urllib.parse import unquote
+import unicodedata
+
 
 
 app = FastAPI()
@@ -36,6 +39,12 @@ if not os.path.exists(STATIC_DIR):
     os.makedirs(os.path.join(STATIC_DIR, "photos"))
 
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+def normalize(s: str) -> str:
+    return unicodedata.normalize("NFKC", s)\
+        .replace("\u00A0", " ")\
+        .strip()\
+        .lower()
 
 # -----------------------------
 # BASIC ROUTES
@@ -91,23 +100,26 @@ async def get_profile(name: str):
         if not os.path.exists(PROFILES_FILE):
             return {"photo": None, "bio": None, "blur": False}
 
-        # ✅ Decode URL + remove accidental quotes
-        clean_name = unquote(name).strip('"').strip()
-
         with open(PROFILES_FILE) as f:
             profiles = json.load(f)
 
-        profile = profiles.get(clean_name, {})
+        target = normalize(unquote(name).strip('"'))
 
-        return {
-            "photo": profile.get("photo"),
-            "bio": profile.get("bio"),
-            "blur": profile.get("blur", False)
-        }
+        # 🔥 SAFE MATCH (this is the key fix)
+        for k, v in profiles.items():
+            if normalize(k) == target:
+                return {
+                    "photo": v.get("photo"),
+                    "bio": v.get("bio"),
+                    "blur": v.get("blur", False)
+                }
+
+        # no match
+        return {"photo": None, "bio": None, "blur": False}
 
     except Exception:
         return {"photo": None, "bio": None, "blur": False}
-
+        
 # -----------------------------
 # USER ROUTES
 # -----------------------------
