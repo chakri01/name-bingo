@@ -211,7 +211,7 @@ const res = await fetch(`${apiUrl}/api/admin/pick-name`, { method: 'POST' })
               <div className="text-center">
                 <div className="text-6xl mb-4">🎉</div>
                 
-                {hasPhoto && (
+                                {hasPhoto && (
                   <div className="mb-6">
                     <img
                       src={`${apiUrl}${profileData.photo}`}
