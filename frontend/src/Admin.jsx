@@ -136,8 +136,8 @@ const res = await fetch(`${apiUrl}/api/admin/pick-name`, { method: 'POST' })
     )
   }
 
-    const hasPhoto = profileData?.photo || false
-    const isBlurred = profileData?.blur || false
+      const hasPhoto = profileData?.photo
+      const isBlurred = profileData?.blur
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white p-4">
