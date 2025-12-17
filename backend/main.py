@@ -38,6 +38,18 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 # -----------------------------
 # BASIC ROUTES
 # -----------------------------
+# temporarary
+from pathlib import Path
+
+@app.get("/api/debug/photos")
+def debug_photos():
+    base = Path("static/photos")
+    return {
+        "cwd": str(Path().resolve()),
+        "exists": base.exists(),
+        "files": [f.name for f in base.glob("*")] if base.exists() else []
+    }
+
 
 @app.get("/")
 async def root():
