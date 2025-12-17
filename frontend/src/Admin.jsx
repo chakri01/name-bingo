@@ -136,7 +136,7 @@ const res = await fetch(`${apiUrl}/api/admin/pick-name`, { method: 'POST' })
     )
   }
 
-  const hasPhoto = profileData?.photo
+  const hasPhoto = profileData?.photo && profileData.photo !== null
   const isBlurred = profileData?.blur
 
   return (
@@ -235,7 +235,7 @@ const res = await fetch(`${apiUrl}/api/admin/pick-name`, { method: 'POST' })
                   </div>
                 )}
                 
-                {!(isBlurred && !revealed) && (
+                {!(isBlurred || revealed) && (
                   <h2 className="text-5xl font-bold text-gray-800 mb-4">
                   {revealedName.picked_name}
                   </h2>
