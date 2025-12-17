@@ -30,7 +30,7 @@
     "blur": true
   },
   "Veeranjaneyulu, Javisetti": {
-    "photo": "/static/photos/Javisetti.jpg",
+    "photo": "/static/photos/Javisetti.jpg", //231
     "bio": "",
     "blur": false
   },
@@ -45,12 +45,12 @@
     "blur": false
   },
   "Kapoor, Diksha": {
-    "photo": "/static/photos/Diksha.jpg",
+    "photo": "/static/photos/Diksha_Kapoor.jpg",
     "bio": "",
     "blur": false
   },
   "Choudhary, Neha": {
-    "photo": "/static/photos/Neha.jpg",
+    "photo": "/static/photos/Neha_Choudhary.jpg",
     "bio": "",
     "blur": false
   },
@@ -60,17 +60,17 @@
     "blur": false
   },
   "Vemulakondoju, Manojkumar": {
-    "photo": "/static/photos/Manojkumar.jpg",
+    "photo": "/static/photos/Manojkumar.jpg", //231
     "bio": "",
     "blur": false
   },
   "Markapuram, Arun Teja Reddy": {
-    "photo": "/static/photos/Arun.jpg",
+    "photo": "/static/photos/Arun_Reddy.jpg",
     "bio": "",
     "blur": false
   },
   "Bharadwaz, Vallabhajoshula": {
-    "photo": "/static/photos/Vallabhajoshula.jpg",
+    "photo": "/static/photos/Vallabhajoshula.jpg",//34
     "bio": "",
     "blur": false
   },
@@ -80,7 +80,7 @@
     "blur": true
   },
   "N, Sanjeeth": {
-    "photo": "/static/photos/Sanjeeth.jpg",
+    "photo": "/static/photos/Sanjeeth.JPG",
     "bio": "Super model from HCM",
     "blur": true
   },
@@ -95,7 +95,7 @@
     "blur": false
   },
   "Suryadevara, B Durga Tejaswi": {
-    "photo": "/static/photos/Durga.jpg",
+    "photo": "/static/photos/Durga.jpg",//wrq
     "bio": "",
     "blur": false
   },
@@ -130,7 +130,7 @@
     "blur": false
   },
   "Singh, Divya": {
-    "photo": "/static/photos/Divya.jpg",
+    "photo": "/static/photos/Divya.jpg", 
     "bio": "",
     "blur": false
   },
@@ -150,12 +150,12 @@
     "blur": false
   },
   "Sri Sudha, Sri Sudha": {
-    "photo": "/static/photos/Sri.jpg",
+    "photo": "/static/photos/Sudha.jpg",
     "bio": "",
     "blur": false
   },
   "Arasanal, Veeresh": {
-    "photo": "/static/photos/Veeresh.jpg",
+    "photo": "/static/photos/Veera.JPG",
     "bio": "",
     "blur": false
   },
@@ -175,7 +175,7 @@
     "blur": false
   },
   "Singh, Namratha": {
-    "photo": "/static/photos/Namratha.jpg",
+    "photo": "/static/photos/Namratha_Singh.jpg",
     "bio": "",
     "blur": false
   },
@@ -185,7 +185,7 @@
     "blur": false
   },
   "Ravi Kumar, Ravi kumar": {
-    "photo": "/static/photos/Ravi.jpg",
+    "photo": "/static/photos/Ravitedf.jpg", //dfs
     "bio": "",
     "blur": false
   },
@@ -200,7 +200,7 @@
     "blur": false
   },
   "Tiwari, Chetan": {
-    "photo": "/static/photos/Chetan.jpg",
+    "photo": "/static/photos/Chetan_Tiwari.jpg",
     "bio": "",
     "blur": false
   },
@@ -225,7 +225,7 @@
     "blur": false
   },
   "Vidya, Raavela Sri": {
-    "photo": "/static/photos/Raavela.jpg",
+    "photo": "/static/photos/Raavela.jpg", //rewqr
     "bio": "",
     "blur": false
   },
@@ -235,7 +235,7 @@
     "blur": false
   },
   "S, Keerthana": {
-    "photo": "/static/photos/Keerthana.jpg",
+    "photo": "/static/photos/Keerthana_Srinivasan.jpg",
     "bio": "",
     "blur": false
   },
@@ -250,7 +250,7 @@
     "blur": false
   },
   "Gupta, Aditya": {
-    "photo": "/static/photos/Aditya.jpg",
+    "photo": "/static/photos/Aditya.jpg", //erw
     "bio": "",
     "blur": false
   },
@@ -270,7 +270,7 @@
     "blur": false
   },
   "N, Namratha": {
-    "photo": "/static/photos/Namratha.jpg",
+    "photo": "/static/photos/Namratha_N.jpg",
     "bio": "",
     "blur": false
   },
@@ -280,37 +280,37 @@
     "blur": false
   },
   "N V, Chaithra": {
-    "photo": "/static/photos/Chaithra.jpg",
+    "photo": "/static/photos/chaithra_nv.jpg",
     "bio": "",
     "blur": false
   },
   "Sirisha, Badri": {
-    "photo": "/static/photos/Badri.jpg",
+    "photo": "/static/photos/Sirisha.jpg", 
     "bio": "",
     "blur": false
   },
   "Chandel, Naveen": {
-    "photo": "/static/photos/Naveen.jpg",
+    "photo": "/static/photos/naveen_chandel.jpg",
     "bio": "",
     "blur": false
   },
   "Raviteja, Udutha": {
-    "photo": "/static/photos/Udutha.jpg",
+    "photo": "/static/photos/Raviteja.jpg",
     "bio": "",
     "blur": false
   },
   "GAZAL, SUMAYYA": {
-    "photo": "/static/photos/SUMAYYA.jpg",
+    "photo": "/static/photos/Sumayya.jpg",
     "bio": "",
     "blur": false
   },
   "Agrawal, Divy": {
-    "photo": "/static/photos/Divy.jpg",
+    "photo": "/static/photos/Divy.png",
     "bio": "",
     "blur": false
   },
   "sahni, varnik": {
-    "photo": "/static/photos/varnik.jpg",
+    "photo": "/static/photos/Varnik.jpg",
     "bio": "",
     "blur": false
   },
@@ -320,7 +320,7 @@
     "blur": false
   },
   "Venkata Sai Kowshik, Satuluri": {
-    "photo": "/static/photos/Satuluri.jpg",
+    "photo": "/static/photos/Satuluri.jpg", //dfas
     "bio": "",
     "blur": false
   },
@@ -345,12 +345,12 @@
     "blur": false
   },
   "Dable, Abhi": {
-    "photo": "/static/photos/Abhi.jpg",
+    "photo": "/static/photos/Abhi_Dable.jpg",
     "bio": "Manager fascinated by railways—no wonder his ideas are always right on track!",
     "blur": true
   },
   "Mohan, Donthiboyena": {
-    "photo": "/static/photos/Donthiboyena.jpg",
+    "photo": "/static/photos/Mohan.jpg",
     "bio": "",
     "blur": false
   },
@@ -370,12 +370,12 @@
     "blur": false
   },
   "JAGADISH, ALTHI": {
-    "photo": "/static/photos/ALTHI.jpg",
+    "photo": "/static/photos/Jagadish.jpg",
     "bio": "",
     "blur": false
   },
   "Chakradhar, Kacham": {
-    "photo": "/static/photos/Kacham.jpg",
+    "photo": "/static/photos/CHAKRADHAR.JPG",
     "bio": "",
     "blur": false
   },
@@ -385,7 +385,7 @@
     "blur": false
   },
   "Goud, Manidhar": {
-    "photo": "/static/photos/Manidhar.jpg",
+    "photo": "/static/photos/Manidhar.jpg", //dfs
     "bio": "",
     "blur": false
   },
@@ -395,7 +395,7 @@
     "blur": false
   },
   "Siripuram, Sai Kumar": {
-    "photo": "/static/photos/Sai.jpg",
+    "photo": "/static/photos/Saikumar.jpg",
     "bio": "",
     "blur": false
   },
@@ -410,22 +410,22 @@
     "blur": false
   },
   "Gawande, Rutik": {
-    "photo": "/static/photos/Rutik.jpg",
+    "photo": "/static/photos/Rukit.jpg",
     "bio": "",
     "blur": false
   },
   "Sumanth Amara": {
-    "photo": "/static/photos/Sumanth.jpg",
+    "photo": "/static/photos/Sumanth.jpg", //dfas
     "bio": "",
     "blur": false
   },
   "M Dhanesha, Jeet": {
-    "photo": "/static/photos/Jeet.jpg",
+    "photo": "/static/photos/Jeet.jpg", //adfad
     "bio": "",
     "blur": false
   },
   "Hemanth, Revanuru Reddi": {
-    "photo": "/static/photos/Revanuru.jpg",
+    "photo": "/static/photos/Revanuru.jpg", //dsfas
     "bio": "",
     "blur": false
   },
@@ -455,7 +455,7 @@
     "blur": false
   },
   "Gupta, Rohit": {
-    "photo": "/static/photos/Rohit.jpg",
+    "photo": "/static/photos/Rohit.jpg", //adf
     "bio": "",
     "blur": false
   },
