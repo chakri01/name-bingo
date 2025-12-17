@@ -214,7 +214,7 @@ export default function Admin({ apiUrl }) {
                   <div className="mb-6">
                     <img
                       src={`${apiUrl}${profileData.photo}`}
-                      alt=211
+                      alt={revealedName.picked_name}
                     
                       className={`w-64 h-64 mx-auto rounded-full object-cover shadow-2xl ${
                         isBlurred && !revealed ? 'blur-2xl' : ''
