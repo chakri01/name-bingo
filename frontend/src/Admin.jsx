@@ -136,8 +136,8 @@ const res = await fetch(`${apiUrl}/api/admin/pick-name`, { method: 'POST' })
     )
   }
 
-  const hasPhoto = profileData?.photo
-  const isBlurred = profileData?.blur
+    const hasPhoto = profileData?.photo || false
+    const isBlurred = profileData?.blur || false
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white p-4">
@@ -211,7 +211,7 @@ const res = await fetch(`${apiUrl}/api/admin/pick-name`, { method: 'POST' })
               <div className="text-center">
                 <div className="text-6xl mb-4">🎉</div>
                 
-                {hasPhoto && (
+                                {hasPhoto && (
                   <div className="mb-6">
                     <img
                       src={`${apiUrl}${profileData.photo}`}
