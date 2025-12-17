@@ -22,7 +22,7 @@ export default function Admin({ apiUrl }) {
       }, 1000)
       return () => clearInterval(interval)
     }
-}, [authenticated, showNameReveal]]
+}, [authenticated, showNameReveal])
   const loadQrCode = async () => {
     try {
       const res = await fetch(`${apiUrl}/api/admin/qr-code`)
