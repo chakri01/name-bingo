@@ -86,12 +86,6 @@ export default function Admin({ apiUrl }) {
       setRevealed(!profile?.blur) // Auto-reveal if not blurred
       setShowNameReveal(true)
 
-      // Auto-close after 5 seconds
-      setTimeout(() => {
-        setShowNameReveal(false)
-        loadGameStatus()
-      }, 5000)
-
     } catch (err) {
       alert('Pick failed')
     }
