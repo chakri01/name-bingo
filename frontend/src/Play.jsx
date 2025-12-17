@@ -18,6 +18,7 @@ export default function Play({ apiUrl, ticketId }) {
     }, 2000 + Math.random() * 2000)
     return () => clearInterval(interval)
   }, [])
+  
 
   const loadTicket = async () => {
     try {
@@ -37,6 +38,13 @@ export default function Play({ apiUrl, ticketId }) {
       setGameStatus(data)
     } catch (err) {
       console.error('Load game status error:', err)
+    }
+  }
+  
+  const handleLogout = () => {
+    if (confirm('Leave game and return to registration?')) {
+      localStorage.removeItem('ticketId')
+      window.location.href = '/'
     }
   }
 
@@ -104,53 +112,63 @@ export default function Play({ apiUrl, ticketId }) {
     isLocked: gameStatus?.is_locked
   })
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 to-pink-900 p-4">
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-lg shadow-2xl p-6">
-          <h2 className="text-2xl font-bold text-center mb-4">{ticket.player_name}</h2>
-          
-          <div className="grid grid-cols-9 gap-1 mb-6">
-            {ticket.grid.map((row, ridx) =>
-              row.map((cell, cidx) => {
-                const key = `${ridx}-${cidx}`
-                const isMarked = marked[key]
-                
-                return (
-                  <div
-                    key={key}
-                    onClick={() => cell && toggleMark(ridx, cidx)}
-                    className={`aspect-square flex items-center justify-center text-xs font-semibold rounded border-2 ${
-                      !cell ? 'bg-gray-200' :
-                      isMarked ? 'bg-green-500 text-white border-green-700' :
-                      'bg-white border-gray-300 hover:bg-gray-50'
-                    } ${
-                      (ticket.status === 'claimed' || gameStatus?.is_locked) && cell ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
-                    }`}
-                  >
-                    {cell ? cell.split('_')[1] || cell : ''}
-                  </div>
-                )
-              })
-            )}
-          </div>
+return (
+  <div className="min-h-screen bg-gradient-to-br from-purple-900 to-pink-900 p-4">
+    <div className="max-w-4xl mx-auto">
+      {/* Logout Button - Top Right */}
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 font-semibold"
+        >
+          Leave Game
+        </button>
+      </div>
 
-          <button
-            onClick={handleClaim}
-            disabled={!allMarked || claiming || ticket.status === 'claimed' || gameStatus?.is_locked}
-            className="w-full bg-red-600 text-white py-4 rounded-lg font-bold text-xl hover:bg-red-700 disabled:bg-gray-400"
-          >
-            {!allMarked ? `Mark All Cells (${totalMarkedCells}/${totalFilledCells})` :
-             ticket.status === 'claimed' ? 'Waiting for Verification...' :
-             gameStatus?.is_locked ? 'Claim in Progress...' :
-             claiming ? 'Submitting...' : 'CLAIM WIN'}
-          </button>
+      <div className="bg-white rounded-lg shadow-2xl p-6">
+        <h2 className="text-2xl font-bold text-center mb-4">{ticket.player_name}</h2>
+        
+        <div className="grid grid-cols-9 gap-1 mb-6">
+          {ticket.grid.map((row, ridx) =>
+            row.map((cell, cidx) => {
+              const key = `${ridx}-${cidx}`
+              const isMarked = marked[key]
+              
+              return (
+                <div
+                  key={key}
+                  onClick={() => cell && toggleMark(ridx, cidx)}
+                  className={`aspect-square flex items-center justify-center text-xs font-semibold rounded border-2 ${
+                    !cell ? 'bg-gray-200' :
+                    isMarked ? 'bg-green-500 text-white border-green-700' :
+                    'bg-white border-gray-300 hover:bg-gray-50'
+                  } ${
+                    (ticket.status === 'claimed' || gameStatus?.is_locked) && cell ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
+                  }`}
+                >
+                  {cell ? cell.split('_')[1] || cell : ''}
+                </div>
+              )
+            })
+          )}
+        </div>
 
-          <div className="mt-4 text-sm text-gray-600">
-            <p>Called: {gameStatus?.picked_names.length || 0}</p>
-          </div>
+        <button
+          onClick={handleClaim}
+          disabled={!allMarked || claiming || ticket.status === 'claimed' || gameStatus?.is_locked}
+          className="w-full bg-red-600 text-white py-4 rounded-lg font-bold text-xl hover:bg-red-700 disabled:bg-gray-400"
+        >
+          {!allMarked ? `Mark All Cells (${totalMarkedCells}/${totalFilledCells})` :
+           ticket.status === 'claimed' ? 'Waiting for Verification...' :
+           gameStatus?.is_locked ? 'Claim in Progress...' :
+           claiming ? 'Submitting...' : 'CLAIM WIN'}
+        </button>
+
+        <div className="mt-4 text-sm text-gray-600">
+          <p>Called: {gameStatus?.picked_names.length || 0}</p>
         </div>
       </div>
     </div>
+  </div>
   )
 }
