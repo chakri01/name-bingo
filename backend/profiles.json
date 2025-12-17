@@ -4,14 +4,14 @@
     "bio": "",
     "blur": false
   },
-  "Vegesna, Pavan Varma": {
-    "photo": "/static/photos/Pavan.jpg",
-    "bio": "",
-    "blur": true
-  },
   "Dhoot, Dinesh Chander": {
     "photo": "/static/photos/dinesh.jpg",
     "bio": "Born to be a cricketer, chose to be the head coach for HCSC",
+    "blur": true
+  },
+  "Vegesna, Pavan Varma": {
+    "photo": "/static/photos/Pavan.jpg",
+    "bio": "",
     "blur": true
   },
   "., Shubham": {
