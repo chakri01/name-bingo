@@ -73,13 +73,14 @@ export default function Admin({ apiUrl }) {
 
   const pickName = async () => {
     try {
-      const res = await fetch(`${apiUrl}/api/admin/pick-name`, { method: 'POST' })
+const res = await fetch(`${apiUrl}/api/admin/pick-name`, { method: 'POST' })
       const data = await res.json()
-
+      console.log('Picked name:', data.picked_name)
+      
       // Fetch profile data
       const profileRes = await fetch(`${apiUrl}/api/profile/${encodeURIComponent(data.picked_name)}`)
       const profile = await profileRes.json()
-
+      console.log('Profile data:', profile)
       setRevealedName(data)
       setProfileData(profile)
       setRevealed(!profile?.blur) // Auto-reveal if not blurred
