@@ -213,7 +213,7 @@ export default function Admin({ apiUrl }) {
                 {hasPhoto && (
                   <div className="mb-6">
                     <img
-                      src={`${apiUrl}${encodeURI(profileData.photo)}`}
+                      src={`${apiUrl}${profileData.photo}`}
                       alt={revealedName.picked_name}
                     
                       className={`w-64 h-64 mx-auto rounded-full object-cover shadow-2xl ${
@@ -234,11 +234,11 @@ export default function Admin({ apiUrl }) {
                   </div>
                 )}
                 
-{!(isBlurred && !revealed) && (
-            <h2 className="text-5xl font-bold text-gray-800 mb-4">
-              {revealedName.picked_name}
-            </h2>
-          )}
+                {!(isBlurred && !revealed) && (
+                  <h2 className="text-5xl font-bold text-gray-800 mb-4">
+                  {revealedName.picked_name}
+                  </h2>
+                )}
                 
                 {profileData?.bio && (
                   <p className="text-xl text-gray-600 mb-6 italic">
