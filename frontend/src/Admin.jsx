@@ -14,7 +14,7 @@ export default function Admin({ apiUrl }) {
   const [revealed, setRevealed] = useState(false)
 
   useEffect(() => {
-    if (authenticated) {
+    if (authenticated && !showNameReveal) {
       loadQrCode()
       const interval = setInterval(() => {
         loadGameStatus()
@@ -22,8 +22,7 @@ export default function Admin({ apiUrl }) {
       }, 1000)
       return () => clearInterval(interval)
     }
-  }, [authenticated])
-
+}, [authenticated, showNameReveal]]
   const loadQrCode = async () => {
     try {
       const res = await fetch(`${apiUrl}/api/admin/qr-code`)
