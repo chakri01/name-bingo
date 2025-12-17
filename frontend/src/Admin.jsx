@@ -214,7 +214,8 @@ export default function Admin({ apiUrl }) {
                   <div className="mb-6">
                     <img
                       src={`${apiUrl}${profileData.photo}`}
-                      alt={revealedName.picked_name}
+                      alt=211
+                    
                       className={`w-64 h-64 mx-auto rounded-full object-cover shadow-2xl ${
                         isBlurred && !revealed ? 'blur-2xl' : ''
                       }`}
@@ -233,9 +234,11 @@ export default function Admin({ apiUrl }) {
                   </div>
                 )}
                 
-                <h2 className="text-5xl font-bold text-gray-800 mb-4">
-                  {revealedName.picked_name}
-                </h2>
+{!(isBlurred && !revealed) && (
+            <h2 className="text-5xl font-bold text-gray-800 mb-4">
+              {revealedName.picked_name}
+            </h2>
+          )}
                 
                 {profileData?.bio && (
                   <p className="text-xl text-gray-600 mb-6 italic">
