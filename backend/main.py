@@ -11,6 +11,8 @@ from models import Base, Name, Ticket, GameState, ClaimQueue
 from tickets import pre_generate_tickets
 from fastapi.staticfiles import StaticFiles
 import os
+from urllib.parse import unquote
+
 
 app = FastAPI()
 
@@ -85,20 +87,25 @@ async def get_names(db: Session = Depends(get_db)):
 async def get_profile(name: str):
     try:
         PROFILES_FILE = os.path.join(os.path.dirname(__file__), "profiles.json")
-        
+
         if not os.path.exists(PROFILES_FILE):
             return {"photo": None, "bio": None, "blur": False}
-        
+
+        # ✅ Decode URL + remove accidental quotes
+        clean_name = unquote(name).strip('"').strip()
+
         with open(PROFILES_FILE) as f:
             profiles = json.load(f)
-        
-        profile = profiles.get(name, {})
+
+        profile = profiles.get(clean_name, {})
+
         return {
             "photo": profile.get("photo"),
             "bio": profile.get("bio"),
             "blur": profile.get("blur", False)
         }
-    except Exception as e:
+
+    except Exception:
         return {"photo": None, "bio": None, "blur": False}
 
 # -----------------------------
