@@ -217,7 +217,7 @@ export default function Admin({ apiUrl }) {
                       src={`${apiUrl}${profileData.photo}`}
                       alt={revealedName.picked_name}
                     
-                      className={`w-64 h-64 mx-auto rounded-full object-cover shadow-2xl ${
+                      className={`w-96 h-auto mx-auto rounded-xl object-contain shadow-2xl ${
                         isBlurred && !revealed ? 'blur-2xl' : ''
                       }`}
                       style={{
