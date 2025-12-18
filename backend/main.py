@@ -61,6 +61,22 @@ def debug_photos():
         "files": [f.name for f in base.glob("*")] if base.exists() else []
     }
 
+@app.get("/api/debug/profiles")
+def debug_profiles():
+    PROFILES_FILE = os.path.join(os.path.dirname(__file__), "profiles.json")
+    
+    if not os.path.exists(PROFILES_FILE):
+        return {"error": "profiles.json not found"}
+    
+    with open(PROFILES_FILE) as f:
+        profiles = json.load(f)
+    
+    return {
+        "file_exists": True,
+        "total_profiles": len(profiles),
+        "sample_keys": list(profiles.keys())[:10],
+        "has_gupta_mannat": "Gupta, Mannat" in profiles
+    }
 
 @app.get("/")
 async def root():
