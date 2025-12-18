@@ -1,9 +1,10 @@
 {
   "Gupta, Mannat": {
-    "photo": "/static/photos/Mannat.jpg",
+    "photo": "/static/photos/mannat.jpg",
     "bio": "",
     "blur": false
-   }
+  }
+}
 //   "Dhoot, Dinesh Chander": {
 //     "photo": "/static/photos/dinesh.jpg",
 //     "bio": "Born to be a cricketer, chose to be the head coach for HCSC",
@@ -494,4 +495,3 @@
 //     "bio": "",
 //     "blur": false
 //   }
-}
