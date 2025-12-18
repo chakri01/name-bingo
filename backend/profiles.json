@@ -4,6 +4,11 @@
     "bio": "",
     "blur": false
   },
+  "Dhoot, Dinesh Chander": {
+     "photo": "/static/photos/dinesh.jpg",
+     "bio": "Born to be a cricketer, chose to be the head coach for HCSC",
+     "blur": true
+   },
   "Vegesna, Pavan Varma": {
     "photo": "/static/photos/Pavan.jpg",
     "bio": "",
@@ -19,7 +24,7 @@
      "bio": "Too sweet to be strict...She is a Manager",
      "blur": true
    },
-   "N, Sanjeeth": {
+   "Sanjeeth N": {
      "photo": "/static/photos/Sanjeeth.JPG",
      "bio": "Super model from HCM",
      "blur": true
@@ -79,7 +84,7 @@
      "bio": "",
      "blur": false
    },
-   "Choudhary, Neha": {
+   "Neha Choudhary": {
      "photo": "/static/photos/Neha_Choudhary.jpg",
      "bio": "",
      "blur": false
@@ -89,7 +94,7 @@
      "bio": "",
      "blur": false
    },
-   "Markapuram, Arun Teja Reddy": {
+   "Arun Teja Reddy": {
      "photo": "/static/photos/Arun_Reddy.jpg",
      "bio": "",
      "blur": false
@@ -215,12 +220,12 @@
      "bio": "",
      "blur": false
    },
-   "Aman, Himanshu": {
+   "Himanshu Aman": {
      "photo": "/static/photos/Himanshu.jpg",
      "bio": "",
      "blur": false
    },
-   "Duraisamy, Karthik": {
+   "Karthik Duraisamy": {
      "photo": "/static/photos/Karthik.jpg",
      "bio": "",
      "blur": false
@@ -250,7 +255,7 @@
      "bio": "",
      "blur": false
    },
-   "Sirisha, Badri": {
+   "Badri, Sirisha": {
      "photo": "/static/photos/Sirisha.jpg", 
      "bio": "",
      "blur": false
@@ -275,7 +280,7 @@
      "bio": "",
      "blur": false
    },
-   "sahni, varnik": {
+   "varnik Sahni": {
      "photo": "/static/photos/Varnik.jpg",
      "bio": "",
      "blur": false
@@ -305,17 +310,17 @@
      "bio": "",
      "blur": false
    },
-   "Mohan, Donthiboyena": {
+   "Mohan Donthiboyena": {
      "photo": "/static/photos/Mohan.jpg",
      "bio": "",
      "blur": false
    },
-   "Yadgiri, Goutami": {
+   "Pandurang Kongari, Goutami": {
      "photo": "/static/photos/Goutami.jpg",
      "bio": "",
      "blur": false
    },
-   "Raj, Swapnil": {
+   "Swapnil Raj": {
      "photo": "/static/photos/Swapnil.jpg",
      "bio": "",
      "blur": false
@@ -331,11 +336,11 @@
      "blur": false
    },
    "Chakradhar, Kacham": {
-     "photo": "/static/photos/Chakradhar.JPG",
+     "photo": "/static/photos/Chakradhar.jpg",
      "bio": "",
      "blur": false
    },
-   "Bisen, Sejal": {
+   "Sejal Bisen": {
      "photo": "/static/photos/Sejal.jpg",
      "bio": "",
      "blur": false
@@ -390,7 +395,7 @@
      "bio": "",
      "blur": false
    },
-   "Brahmandlapally, Sanjay Kumar": {
+   "Sanjay Kumar, Brahmandlapally": {
      "photo": "/static/photos/Sanjay.jpg",
      "bio": "",
      "blur": false
