@@ -101,7 +101,7 @@
    },
    "Janu, Shreya": {
      "photo": "/static/photos/Shreya.jpg",
-     "bio": "Thrives on good quality coffee because "Quality Assurance" is very important in life",
+     "bio": "She thrives on good quality coffee because "Quality Assurance" is very important in life",
      "blur": true
    },
    "Vats, Shruti": {
@@ -201,7 +201,7 @@
    },
    
    "P.S.M, Surya": {
-     "photo": "/static/photos/Surya.jpg",
+     "photo": "/static/photos/Surya_P.jpg",
      "bio": "",
      "blur": false
    },
@@ -236,7 +236,7 @@
      "blur": false
    },
    "Das, Debadrita": {
-     "photo": "/static/photos/Debadrita.jpg",
+     "photo": "/static/photos/Debadrita_Das.jpg",
      "bio": "",
      "blur": false
    },
