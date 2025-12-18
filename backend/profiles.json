@@ -53,5 +53,85 @@
      "photo": "/static/photos/Abhi_Dable.jpg",
      "bio": "Manager fascinated by railways—no wonder his ideas are always right on track!",
      "blur": true
+   },
+   "., Shubham": {
+     "photo": "/static/photos/Shubham.jpg",
+     "bio": "",
+     "blur": false
+   },
+   "N, Vijay": {
+     "photo": "/static/photos/Vijay.jpg",
+     "bio": "",
+     "blur": false
+   },
+   "Ramesh Pawar, Snehal": {
+     "photo": "/static/photos/Snehal.jpg",
+     "bio": "",
+     "blur": false
+   },
+   "Kumar, Dushant": {
+     "photo": "/static/photos/Dushant.jpg",
+     "bio": "",
+     "blur": false
+   },
+   "Kapoor, Diksha": {
+     "photo": "/static/photos/Diksha_Kapoor.jpg",
+     "bio": "",
+     "blur": false
+   },
+   "Choudhary, Neha": {
+     "photo": "/static/photos/Neha_Choudhary.jpg",
+     "bio": "",
+     "blur": false
+   },
+   "Sharma, Nilim": {
+     "photo": "/static/photos/Nilim.jpg",
+     "bio": "",
+     "blur": false
+   },
+   "Markapuram, Arun Teja Reddy": {
+     "photo": "/static/photos/Arun_Reddy.jpg",
+     "bio": "",
+     "blur": false
+   },
+   "Janu, Shreya": {
+     "photo": "/static/photos/Shreya.jpg",
+     "bio": "",
+     "blur": true
+   },
+   "Vats, Shruti": {
+     "photo": "/static/photos/Shruti.jpg",
+     "bio": "",
+     "blur": false
+   },
+   "Srisai Vara Susmitha Bhar, Susmitha": {
+     "photo": "/static/photos/Susmitha.jpg",
+     "bio": "",
+     "blur": false
+   },
+   "Minnathrao Titarmare, Shivani": {
+     "photo": "/static/photos/Shivani.jpg",
+     "bio": "",
+     "blur": false
+   },
+   "Srivastava, Anushka": {
+     "photo": "/static/photos/Anushka.jpg",
+     "bio": "",
+     "blur": false
+   },
+   "Bera, Syamantak": {
+     "photo": "/static/photos/Syamantak_Andaman.jpg",
+     "bio": "",
+     "blur": false
+   },
+   "Chawda, Himank": {
+     "photo": "/static/photos/Himank.jpg",
+     "bio": "",
+     "blur": false
+   },
+   "Ajay , M K": {
+     "photo": "/static/photos/Ajay.jpg",
+     "bio": "",
+     "blur": false
    }
 }
