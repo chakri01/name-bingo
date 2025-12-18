@@ -3,5 +3,55 @@
     "photo": "/static/photos/Mannat.jpg",
     "bio": "",
     "blur": false
-  }
+  },
+  "Vegesna, Pavan Varma": {
+    "photo": "/static/photos/Pavan.jpg",
+    "bio": "",
+    "blur": true
+  },
+  "Chandran S, Dharani": {
+     "photo": "/static/photos/Dharani.jpg",
+     "bio": "Chennai Super Lead",
+     "blur": true
+   },
+  "Poonacha, M Ashma": {
+     "photo": "/static/photos/Ashma.jpg",
+     "bio": "Too sweet to be strict...She is a Manager",
+     "blur": true
+   },
+   "N, Sanjeeth": {
+     "photo": "/static/photos/Sanjeeth.JPG",
+     "bio": "Super model from HCM",
+     "blur": true
+   },
+   "Gilda, Manisha": {
+     "photo": "/static/photos/Manisha_Gilda.jpg",
+     "bio": "Manager who loves Avocado toast",
+     "blur": true
+   },
+   "Ranga, Manisha": {
+     "photo": "/static/photos/Manisha.jpg",
+     "bio": "Hyderabad's proactive event organizer",
+     "blur": true
+   },
+   "G, Siva Kumar": {
+     "photo": "/static/photos/Siva.png",
+     "bio": "THE FAMILY MANagaer",
+     "blur": true
+   },
+   "Mahawar, Shraddha": {
+     "photo": "/static/photos/Shraddha.jpg",
+     "bio": "Certified web series binge-watcher!",
+     "blur": true
+   },
+   "Madduluri, Sridutt": {
+     "photo": "/static/photos/Sridutt.jpg",
+     "bio": "You hear him on Friday calls but you can hear him louder on a football ground",
+     "blur": true
+   },
+   "Dable, Abhi": {
+     "photo": "/static/photos/Abhi_Dable.jpg",
+     "bio": "Manager fascinated by railways—no wonder his ideas are always right on track!",
+     "blur": true
+   }
 }
